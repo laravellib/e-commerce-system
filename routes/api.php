@@ -1,5 +1,7 @@
 <?php
 
 Route::get('/', function () {
-    return 'Test API routes';
+    $categories = \App\Models\Category::parent()->ordered()->get();
+
+    return $categories;
 });
