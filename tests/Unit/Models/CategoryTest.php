@@ -44,7 +44,7 @@ class CategoryTest extends TestCase
             'order' => 1,
         ]);
 
-        tap(Category::ordered()->get(), function ($categories) use ($category, $anotherCategory) {
+        tap(Category::orderable()->get(), function ($categories) use ($category, $anotherCategory) {
             $this->assertTrue($anotherCategory->is($categories[0]));
             $this->assertTrue($category->is($categories[1]));
         });
