@@ -58,3 +58,5 @@ window.Echo = new Echo({
 - add echo-server to supervisor conf
 - figure it out with deployment
 - add all extensions to supervisor container
+- configuration for IDE
+- readme up script (not install, just up existing project on a new computer)
