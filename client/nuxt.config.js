@@ -14,6 +14,14 @@ module.exports = {
     ]
   },
 
+  modules: [
+    '@nuxtjs/axios'
+  ],
+
+  axios: {
+    baseURL: 'http://localhost:8080/api',
+  },
+
   css: [
     '~assets/styles/app.scss'
   ],
