@@ -20,13 +20,18 @@ class Product extends Model
         return 'slug';
     }
 
+    public function scopeWithScopes(Builder $builder, $request, $scopes = [])
+    {
+        return (new Scoper($request))->apply($builder, $scopes);
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);
     }
 
-    public function scopeWithScopes(Builder $builder, $request, $scopes = [])
+    public function variations()
     {
-        return (new Scoper($request))->apply($builder, $scopes);
+        return $this->hasMany(ProductVariation::class)->orderBy('order', 'asc');
     }
 }

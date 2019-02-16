@@ -17,13 +17,7 @@
       Product,
     },
 
-    data() {
-      return {
-        products: [],
-      }
-    },
-
-    async asyncData({params, app}) {
+    async asyncData({ params, app }) {
       let response = await app.$axios.$get(`products?category=${params.slug}`);
 
       return {

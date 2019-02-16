@@ -31,9 +31,8 @@ remove-volumes:
 migrate:
 	docker-compose exec php-cli php artisan migrate
 
-env:
-	cp ./.env.example ./.env
-	docker-compose exec php-cli php artisan key:generate
+rollback:
+	docker-compose exec php-cli php artisan rollback
 
 refresh:
 	docker-compose exec php-cli php artisan migrate:refresh
@@ -58,6 +57,10 @@ autoload:
 perm:
 	sudo chmod -R 777 bootstrap/cache
 	sudo chmod -R 777 storage
+
+env:
+	cp ./.env.example ./.env
+	docker-compose exec php-cli php artisan key:generate
 
 #---------------------------
 # Front-end
