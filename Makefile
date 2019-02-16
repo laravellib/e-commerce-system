@@ -31,9 +31,6 @@ remove-volumes:
 migrate:
 	docker-compose exec php-cli php artisan migrate
 
-seed:
-	docker-compose exec php-cli php artisan db:seed
-
 env:
 	cp ./.env.example ./.env
 	docker-compose exec php-cli php artisan key:generate
@@ -41,11 +38,16 @@ env:
 refresh:
 	docker-compose exec php-cli php artisan migrate:refresh
 
+seed:
+	docker-compose exec php-cli php artisan db:seed
+
+reseed: refresh seed
+
 tinker:
 	docker-compose exec php-cli php artisan tinker
 
 test:
-	@docker-compose exec php-cli vendor/bin/phpunit
+	docker-compose exec php-cli vendor/bin/phpunit
 
 coverage:
 	docker-compose exec php-cli vendor/bin/phpunit --coverage-html tests/report
