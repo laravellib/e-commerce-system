@@ -14,4 +14,9 @@ class Category extends Model
         'slug',
         'order',
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }

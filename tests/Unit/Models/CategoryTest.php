@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Category;
+use App\Models\Product;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
@@ -48,5 +49,18 @@ class CategoryTest extends TestCase
             $this->assertTrue($anotherCategory->is($categories[0]));
             $this->assertTrue($category->is($categories[1]));
         });
+    }
+
+    /** @test */
+    function it_has_many_products()
+    {
+        $category = factory(Category::class)->create();
+
+        $category->products()->save(
+            $product = factory(Product::class)->make()
+        );
+
+        $this->assertInstanceOf(Product::class, $category->products->first());
+        $this->assertTrue($category->products->first()->is($product));
     }
 }
