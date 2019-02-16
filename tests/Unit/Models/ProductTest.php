@@ -5,6 +5,7 @@ namespace Tests\Unit\Models;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariation;
+use Money\Money;
 use Tests\TestCase;
 
 class ProductTest extends TestCase
@@ -41,5 +42,23 @@ class ProductTest extends TestCase
 
         $this->assertInstanceOf(ProductVariation::class, $product->variations->first());
         $this->assertTrue($product->variations->first()->is($variation));
+    }
+
+    /** @test */
+    function it_returns_money_instance_for_the_money()
+    {
+        $product = factory(Product::class)->create();
+
+        $this->assertInstanceOf(Money::class, $product->money);
+    }
+
+    /** @test */
+    function it_returns_a_formatted_price()
+    {
+        $product = factory(Product::class)->create([
+            'price' => 1500,
+        ]);
+
+        $this->assertEquals('$15.00', $product->price_formatted);
     }
 }

@@ -30,6 +30,11 @@ RUN docker-php-ext-install pdo pdo_mysql
 # BC Math
 RUN docker-php-ext-install bcmath
 
+# Human Language and Character Encoding Support
+RUN apt-get install -y zlib1g-dev libicu-dev g++
+RUN docker-php-ext-configure intl
+RUN docker-php-ext-install intl
+
 # Xdebug
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini

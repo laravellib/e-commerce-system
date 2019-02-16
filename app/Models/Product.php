@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasPrice;
 use App\Models\Traits\HasScopes;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasScopes;
+    use HasScopes, HasPrice;
 
     protected $fillable = [
         'name',

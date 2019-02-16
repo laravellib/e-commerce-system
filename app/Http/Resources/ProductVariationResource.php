@@ -16,12 +16,14 @@ class ProductVariationResource extends JsonResource
     public function toArray($request)
     {
         if ($this->resource instanceof Collection) {
-            return self::collection($this->resource);
+            return self::collection($this->resource)->resolve($request);
         }
 
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'price' => $this->price_formatted,
+            'price_varies' => $this->priceVaries(),
         ];
     }
 }
