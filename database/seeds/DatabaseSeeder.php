@@ -2,6 +2,7 @@
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductVariationType;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $categories = factory(Category::class, 5)->create();
+
+        $this->createVariationTypes();
 
         $categories->each(function ($category) {
             $this->createSubCategoriesWithProducts($category);
@@ -44,5 +47,12 @@ class DatabaseSeeder extends Seeder
         $products = factory(Product::class, random_int(0, 5))->make();
 
         $category->products()->saveMany($products);
+    }
+
+    private function createVariationTypes(): void
+    {
+        $sizeType = factory(ProductVariationType::class)->create([
+            'name' => 'size'
+        ]);
     }
 }

@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductVariation extends Model
 {
+    public function type()
+    {
+        return $this->belongsTo(ProductVariationType::class);
+    }
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

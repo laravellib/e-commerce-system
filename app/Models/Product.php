@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Scopes\Scoper;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Traits\HasScopes;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use HasScopes;
+
     protected $fillable = [
         'name',
         'slug',
@@ -18,11 +19,6 @@ class Product extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
-    }
-
-    public function scopeWithScopes(Builder $builder, $request, $scopes = [])
-    {
-        return (new Scoper($request))->apply($builder, $scopes);
     }
 
     public function categories()
