@@ -3,7 +3,7 @@
         <div class="container is-fluid">
             <div class="columns is-multiline">
                 <div v-for="product in products" :key="product.slug" class="column is-3">
-                    <product :product="product"/>
+                    <Product :product="product"/>
                 </div>
             </div>
         </div>

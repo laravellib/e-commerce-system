@@ -14,6 +14,17 @@
 
                         <span class="tag is-rounded is-medium">{{ product.price }}</span>
                     </section>
+
+                    <section class="section">
+                        <form action="">
+                            <ProductVariationType
+                                v-for="(variations, type) in product.variations"
+                                :key="type"
+                                :type="type"
+                                :variations="variations"
+                            />
+                        </form>
+                    </section>
                 </div>
             </div>
         </div>
@@ -21,7 +32,13 @@
 </template>
 
 <script>
+  import ProductVariationType from '@/components/products/ProductVariationType.vue';
+
   export default {
+    components: {
+      ProductVariationType,
+    },
+
     data() {
       return {
         product: null,
