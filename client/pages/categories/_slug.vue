@@ -1,12 +1,22 @@
 <template>
     <div class="section">
         <div class="container is-fluid">
-            <p>{{ products }}</p>
+            <div class="columns is-multiline">
+                <div v-for="product in products" :key="product.slug" class="column is-3">
+                    <product :product="product"/>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 <script>
+  import Product from '@/components/products/Product.vue';
+
   export default {
+    components: {
+      Product,
+    },
+
     data() {
       return {
         products: [],
@@ -19,6 +29,6 @@
       return {
         products: response.data,
       }
-    }
+    },
   };
 </script>
