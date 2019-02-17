@@ -23,6 +23,14 @@
                                 :type="type"
                                 :variations="variations"
                             />
+
+                            <div class="field has-addons">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </section>
                 </div>
