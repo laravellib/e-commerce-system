@@ -5,6 +5,7 @@ namespace Tests\Unit\Models;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariation;
+use App\Models\Stock;
 use Money\Money;
 use Tests\TestCase;
 
@@ -60,5 +61,41 @@ class ProductTest extends TestCase
         ]);
 
         $this->assertEquals('$15.00', $product->price_formatted);
+    }
+
+    /** @test */
+    function it_can_check_if_it_is_in_stock()
+    {
+        $product = factory(Product::class)->create();
+
+        $product->variations()->save(
+            $variation = factory(ProductVariation::class)->make()
+        );
+
+        $variation->stocks()->save(
+            factory(Stock::class)->make([
+                'quantity' => 5
+            ])
+        );
+
+        $this->assertTrue($product->inStock());
+    }
+
+    /** @test */
+    function it_can_get_the_stock_count()
+    {
+        $product = factory(Product::class)->create();
+
+        $product->variations()->save(
+            $variation = factory(ProductVariation::class)->make()
+        );
+
+        $variation->stocks()->save(
+            factory(Stock::class)->make([
+                'quantity' => 5
+            ])
+        );
+
+        $this->assertEquals(5, $product->stockCount());
     }
 }
