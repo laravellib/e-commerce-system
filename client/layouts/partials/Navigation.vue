@@ -49,9 +49,9 @@
 
             <div id="nav" class="navbar-menu">
                 <div class="navbar-end">
-                    <a href="" class="navbar-item">
+                    <nuxt-link :to="{ name: 'auth-signin' }" class="navbar-item">
                         Sign in
-                    </a>
+                    </nuxt-link>
                 </div>
             </div>
         </div>
