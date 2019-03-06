@@ -11,3 +11,5 @@ Route::group([
     Route::post('login', 'LoginController@store')->name('auth.login.store');
     Route::get('me', 'MeController@index')->name('auth.me.index');
 });
+
+Route::post('cart', 'Cart\CartController@store')->name('cart.store')->middleware('auth:api');
