@@ -36,4 +36,30 @@ class UserTest extends TestCase
 
         $this->assertEquals('hash-password', $user->password);
     }
+
+    /** @test */
+    function it_has_many_cart_products()
+    {
+        $user = factory(User::class)->create();
+
+        $user->cart()->attach(
+            factory(ProductVariation::class)->create()->id
+        );
+
+        $this->assertInstanceOf(ProductVariation::class, $user->cart->first());
+    }
+
+    /** @test */
+    function it_has_a_quantity_for_each_cart_products()
+    {
+        $user = factory(User::class)->create();
+
+        $user->cart()->attach(
+            factory(ProductVariation::class)->create()->id, [
+                'quantity' => 5
+            ]
+        );
+
+        $this->assertEquals(5, $user->cart->first()->pivot->quantity);
+    }
 }
