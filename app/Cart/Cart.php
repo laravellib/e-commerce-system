@@ -24,7 +24,18 @@ class Cart
     private function getStorePayload(array $products): Collection
     {
         return collect($products)->mapWithKeys(function ($product) {
-            return [$product['id'] => ['quantity' => $product['quantity']]];
+            return [
+                $product['id'] => [
+                    'quantity' => $product['quantity'] + $this->getCurrentQuantity($product['id'])
+                ]
+            ];
         });
+    }
+
+    protected function getCurrentQuantity(int $productId)
+    {
+        $product = $this->user->cart()->where('id', $productId)->first();
+
+        return $product ? $product->pivot->quantity : 0;
     }
 }
