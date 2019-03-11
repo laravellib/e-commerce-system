@@ -27,12 +27,14 @@
             {{ product.total }}
         </td>
         <td>
-            <a href="">Remove</a>
+            <a href="" @click.prevent="attemptDestroy(product.id)">Remove</a>
         </td>
     </tr>
 </template>
 
 <script>
+  import { mapActions } from 'vuex';
+
   export default {
     props: {
       product: {
@@ -40,5 +42,17 @@
         required: true,
       },
     },
+
+    methods: {
+      ...mapActions({
+        destroy: 'cart/destroy'
+      }),
+
+      attemptDestroy(id) {
+        if (confirm('Are you sure?')) {
+          this.destroy(id);
+        }
+      },
+    }
   }
 </script>
