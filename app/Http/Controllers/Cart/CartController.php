@@ -18,11 +18,14 @@ class CartController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index(Request $request)
+    public function index(Request $request, Cart $cart)
     {
         $request->user()->load(['cart.product.variations.stock', 'cart.stock']);
 
-        return new CartResource($request->user());
+        return (new CartResource($request->user()))
+            ->additional([
+                'meta' => $this->meta($cart)
+            ]);
     }
 
     public function store(CartStoreRequest $request, Cart $cart)
@@ -42,5 +45,12 @@ class CartController extends Controller
     public function destroy(ProductVariation $productVariation, Cart $cart)
     {
         $cart->delete($productVariation->id);
+    }
+
+    private function meta(Cart $cart): array
+    {
+        return [
+            'empty' => $cart->isEmpty()
+        ];
     }
 }
