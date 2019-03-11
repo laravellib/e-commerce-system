@@ -6,7 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariation;
 use App\Models\Stock;
-use Money\Money;
+use App\Money\Money;
 use Tests\TestCase;
 
 class ProductTest extends TestCase
