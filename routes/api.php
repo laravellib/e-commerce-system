@@ -12,4 +12,5 @@ Route::group([
     Route::get('me', 'MeController@index')->name('auth.me.index');
 });
 
-Route::post('cart', 'Cart\CartController@store')->name('cart.store')->middleware('auth:api');
+Route::post('cart', 'Cart\CartController@store')->name('cart.store');
+Route::put('cart/{productVariation}', 'Cart\CartController@update')->name('cart.update');
