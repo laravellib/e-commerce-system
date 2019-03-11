@@ -30,4 +30,9 @@ class CartController extends Controller
 
         return response()->json([], Response::HTTP_CREATED);
     }
+
+    public function destroy(ProductVariation $productVariation, Cart $cart)
+    {
+        $cart->delete($productVariation->id);
+    }
 }

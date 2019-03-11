@@ -26,6 +26,11 @@ class Cart
         $this->user->cart()->updateExistingPivot($id, compact('quantity'));
     }
 
+    public function delete(int $id)
+    {
+        $this->user->cart()->detach($id);
+    }
+
     private function getStorePayload(array $products): Collection
     {
         return collect($products)->mapWithKeys(function ($product) {

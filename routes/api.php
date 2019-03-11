@@ -14,3 +14,4 @@ Route::group([
 
 Route::post('cart', 'Cart\CartController@store')->name('cart.store');
 Route::put('cart/{productVariation}', 'Cart\CartController@update')->name('cart.update');
+Route::delete('cart/{productVariation}', 'Cart\CartController@destroy')->name('cart.destroy');
