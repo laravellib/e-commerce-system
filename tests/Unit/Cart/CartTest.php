@@ -85,4 +85,28 @@ class CartTest extends TestCase
 
         $this->assertEmpty($user->fresh()->cart);
     }
+
+    /** @test */
+    function it_can_delete_all_products_from_the_cart()
+    {
+        $cart = new Cart(
+            $user = factory(User::class)->create()
+        );
+
+        $user->cart()->attach(
+            factory(ProductVariation::class)->create(), [
+                'quantity' => 1
+            ]
+        );
+
+        $user->cart()->attach(
+            factory(ProductVariation::class)->create(), [
+                'quantity' => 3
+            ]
+        );
+
+        $cart->clear();
+
+        $this->assertEmpty($user->fresh()->cart);
+    }
 }
