@@ -1,11 +1,22 @@
 <template>
     <table class="table is-hoverable is-fullwidth">
         <tbody>
-        <CartOverviewProduct
-                v-for="product in products"
-                :key="product.id"
-                :product="product"
-        />
+            <CartOverviewProduct
+                    v-for="product in products"
+                    :key="product.id"
+                    :product="product"
+            />
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <p class="has-text-weight-bold">Subtotal</p>
+                </td>
+                <td>
+                    <p class="has-text-weight-bold">{{ subtotal }}</p>
+                </td>
+                <td></td>
+            </tr>
         </tbody>
     </table>
 </template>
@@ -22,6 +33,7 @@
     computed: {
       ...mapGetters({
         products: 'cart/products',
+        subtotal: 'cart/subtotal',
       }),
     },
   }
