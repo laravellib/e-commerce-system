@@ -53,4 +53,9 @@ class ProductVariation extends Model
     {
         return (bool) $this->stock->first()->pivot->in_stock;
     }
+
+    public function minStock($amount)
+    {
+        return min($this->stockCount(), $amount);
+    }
 }

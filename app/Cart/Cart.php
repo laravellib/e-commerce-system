@@ -10,6 +10,8 @@ class Cart
 {
     private $user;
 
+    protected $changed = false;
+
     public function __construct(User $user)
     {
         $this->user = $user;
@@ -30,6 +32,27 @@ class Cart
     public function delete(int $id)
     {
         $this->user->cart()->detach($id);
+    }
+
+    /**
+     * Sync cart quantity based on stock quantity
+     */
+    public function sync()
+    {
+        $this->user->cart->each(function ($product) {
+            $quantity = $product->minStock($product->pivot->quantity);
+
+            $this->changed = $quantity !== $product->pivot->quantity;
+
+            $product->pivot->update([
+                'quantity' => $quantity,
+            ]);
+        });
+    }
+
+    public function hasChanged()
+    {
+        return $this->changed;
     }
 
     public function clear()
