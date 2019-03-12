@@ -43,4 +43,28 @@ class CartIndexTest extends TestCase
             'empty' => true
         ]);
     }
+
+    /** @test */
+    function it_shows_a_formatted_subtotal()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->signIn($user)->getJson(route('cart.index'));
+
+        $response->assertJsonFragment([
+            'subtotal' => '$0.00'
+        ]);
+    }
+
+    /** @test */
+    function it_shows_a_formatted_total()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->signIn($user)->getJson(route('cart.index'));
+
+        $response->assertJsonFragment([
+            'total' => '$0.00'
+        ]);
+    }
 }

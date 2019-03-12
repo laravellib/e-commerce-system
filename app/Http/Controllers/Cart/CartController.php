@@ -24,7 +24,7 @@ class CartController extends Controller
 
         return (new CartResource($request->user()))
             ->additional([
-                'meta' => $this->meta($cart)
+                'meta' => $this->meta($cart),
             ]);
     }
 
@@ -50,7 +50,9 @@ class CartController extends Controller
     private function meta(Cart $cart): array
     {
         return [
-            'empty' => $cart->isEmpty()
+            'empty' => $cart->isEmpty(),
+            'subtotal' => $cart->subtotal()->formatted(),
+            'total' => $cart->total()->formatted(),
         ];
     }
 }
