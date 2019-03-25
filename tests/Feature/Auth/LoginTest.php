@@ -4,8 +4,6 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Tests\TestCase;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\JWTGuard;
 
 class LoginTest extends TestCase
 {

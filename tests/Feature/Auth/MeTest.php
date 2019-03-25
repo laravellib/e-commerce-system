@@ -5,8 +5,6 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Tests\TestCase;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\JWTGuard;
 
 class MeTest extends TestCase
 {
