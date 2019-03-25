@@ -14,13 +14,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $categories = factory(Category::class, 5)->create();
+        $this->call(CountriesTableSeeder::class);
 
-        $this->createVariationTypes();
-
-        $categories->each(function ($category) {
-            $this->createSubCategoriesWithProducts($category);
-        });
+//        TODO: feature base database population
+//        $categories = factory(Category::class, 5)->create();
+//
+//        $this->createVariationTypes();
+//
+//        $categories->each(function ($category) {
+//            $this->createSubCategoriesWithProducts($category);
+//        });
     }
 
     /**
