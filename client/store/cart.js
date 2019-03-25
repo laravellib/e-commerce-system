@@ -62,5 +62,13 @@ export const actions = {
     });
 
     dispatch('getCart');
+  },
+
+  async store({ dispatch }, products) {
+    await this.$axios.$post('cart', {
+      products
+    });
+
+    dispatch('getCart');
   }
 };

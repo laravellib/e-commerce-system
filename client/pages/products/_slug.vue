@@ -20,16 +20,14 @@
                     </section>
 
                     <section class="section">
-                        <form action="">
+                        <form action="" @submit.prevent="add">
                             <ProductVariationType
-                                v-for="(variations, type) in product.variations"
-                                :key="type"
-                                :type="type"
-                                :variations="variations"
-                                v-model="form.variation"
+                                    v-for="(variations, type) in product.variations"
+                                    :key="type"
+                                    :type="type"
+                                    :variations="variations"
+                                    v-model="form.variation"
                             />
-
-                            {{ form }}
 
                             <div v-if="form.variation" class="field has-addons">
                                 <div class="control">
@@ -58,6 +56,7 @@
 </template>
 
 <script>
+  import {mapActions} from 'vuex';
   import ProductVariationType from '@/components/products/ProductVariationType.vue';
 
   export default {
@@ -76,9 +75,9 @@
     },
 
     watch: {
-        'form.variation': function () {
-            this.form.quantity = 1;
-        }
+      'form.variation': function () {
+        this.form.quantity = 1;
+      }
     },
 
     async asyncData({params, app}) {
@@ -87,6 +86,24 @@
       return {
         product: response.data,
       }
-    }
+    },
+
+    methods: {
+      ...mapActions({
+        store: 'cart/store',
+      }),
+
+      add() {
+        this.store([{
+          id: this.form.variation.id,
+          quantity: this.form.quantity,
+        }]);
+
+        this.form = {
+          variation: null,
+          quantity: 1,
+        }
+      },
+    },
   }
 </script>
