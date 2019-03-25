@@ -2,14 +2,10 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Category;
-use App\Models\Product;
+use App\Models\Address;
 use App\Models\ProductVariation;
-use App\Models\Stock;
 use App\Models\User;
-use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Support\Facades\Hash;
-use Money\Money;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -61,5 +57,17 @@ class UserTest extends TestCase
         );
 
         $this->assertEquals(5, $user->cart->first()->pivot->quantity);
+    }
+
+    /** @test */
+    function it_has_many_addresses()
+    {
+        $user = factory(User::class)->create();
+
+        $user->addresses()->save(
+            factory(Address::class)->make()
+        );
+
+        $this->assertInstanceOf(Address::class, $user->addresses->first());
     }
 }
