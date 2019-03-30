@@ -17,12 +17,14 @@
                 </td>
                 <td></td>
             </tr>
+
+            <slot name="rows" />
         </tbody>
     </table>
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
+  import { mapGetters } from 'vuex';
   import CartOverviewProduct from './CartOverviewProduct.vue';
 
   export default {

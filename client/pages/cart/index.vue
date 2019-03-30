@@ -11,7 +11,13 @@
 
                     <p v-else>Your cart is empty</p>
 
-                    <a href="#" class="button is-fullwidth is-info is-medium" :disabled="empty">Checkout</a>
+                    <nuxt-link
+                            :to="{ name: 'checkout' }"
+                            class="button is-fullwidth is-info is-medium"
+                            :disabled="empty"
+                    >
+                        Checkout
+                    </nuxt-link>
                 </div>
             </div>
         </div>
