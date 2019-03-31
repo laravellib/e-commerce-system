@@ -3,11 +3,9 @@
         <div class="container is-fluid">
             <div class="columns">
                 <div class="column is-8">
-                    <article class="message">
-                        <div class="message-body">
-                            <h5 class="title is-5">Ship to</h5>
-                        </div>
-                    </article>
+                    <ShippingAddress
+                            :addresses="addresses"
+                    />
 
                     <article class="message">
                         <div class="message-body">
@@ -91,11 +89,19 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import CartOverview from "../../components/cart/CartOverview";
+  import CartOverview from "@/components/cart/CartOverview";
+  import ShippingAddress from "@/components/checkout/addresses/ShippingAddress";
 
   export default {
     components: {
-      CartOverview
+      CartOverview,
+      ShippingAddress,
+    },
+
+    data() {
+      return {
+        addresses: [],
+      };
     },
 
     computed: {
@@ -104,6 +110,14 @@
         products: 'cart/products',
         empty: 'cart/empty',
       }),
+    },
+
+    async asyncData({ app }) {
+      let addresses = await app.$axios.$get('addresses');
+
+      return {
+        addresses: addresses.data,
+      }
     },
   }
 </script>
