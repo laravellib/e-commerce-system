@@ -4,6 +4,7 @@ namespace Tests\Unit\Cart;
 
 use App\Cart\Cart;
 use App\Models\ProductVariation;
+use App\Models\ShippingMethod;
 use App\Models\User;
 use App\Money\Money;
 use Tests\TestCase;
@@ -168,7 +169,7 @@ class CartTest extends TestCase
             ]
         );
 
-        $this->assertEquals($cart->subtotal()->amount(), 2000);
+        $this->assertEquals(2000, $cart->subtotal()->amount());
     }
 
     /** @test */
@@ -179,6 +180,46 @@ class CartTest extends TestCase
         );
 
         $this->assertInstanceOf(Money::class, $cart->total());
+    }
+
+    /** @test */
+    function it_can_return_the_correct_total_without_shipping()
+    {
+        $cart = new Cart(
+            $user = factory(User::class)->create()
+        );
+
+        $user->cart()->attach(
+            factory(ProductVariation::class)->create([
+                'price' => 1000
+            ]), [
+                'quantity' => 2
+            ]
+        );
+
+        $this->assertEquals(2000, $cart->total()->amount());
+    }
+
+    /** @test */
+    function it_can_return_the_correct_total_with_shipping()
+    {
+        $cart = new Cart(
+            $user = factory(User::class)->create()
+        );
+
+        $shipping = factory(ShippingMethod::class)->create([
+            'price' => 1000,
+        ]);
+
+        $user->cart()->attach(
+            factory(ProductVariation::class)->create([
+                'price' => 1000
+            ]), [
+                'quantity' => 2
+            ]
+        );
+
+        $this->assertEquals(3000, $cart->withShipping($shipping)->total()->amount());
     }
 
     /** @test */

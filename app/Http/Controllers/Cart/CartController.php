@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\CartUpdateRequest;
 use App\Http\Resources\Cart\CartResource;
 use App\Models\ProductVariation;
+use App\Models\ShippingMethod;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -26,7 +27,7 @@ class CartController extends Controller
 
         return (new CartResource($request->user()))
             ->additional([
-                'meta' => $this->meta($cart),
+                'meta' => $this->meta($cart, $request),
             ]);
     }
 
@@ -49,12 +50,16 @@ class CartController extends Controller
         $cart->delete($productVariation->id);
     }
 
-    private function meta(Cart $cart): array
+    private function meta(Cart $cart, Request $request): array
     {
+        $shipping = $request->has('shipping_method_id')
+            ? ShippingMethod::find($request->get('shipping_method_id'))
+            : null;
+
         return [
             'empty' => $cart->isEmpty(),
             'subtotal' => $cart->subtotal()->formatted(),
-            'total' => $cart->total()->formatted(),
+            'total' => $cart->withShipping($shipping)->total()->formatted(),
             'changed' => $cart->hasChanged(),
         ];
     }

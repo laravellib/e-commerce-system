@@ -2,6 +2,7 @@
 
 namespace App\Cart;
 
+use App\Models\ShippingMethod;
 use App\Models\User;
 use App\Money\Money;
 use Illuminate\Support\Collection;
@@ -12,9 +13,18 @@ class Cart
 
     protected $changed = false;
 
+    private $shipping;
+
     public function __construct(User $user)
     {
         $this->user = $user;
+    }
+
+    public function withShipping(?ShippingMethod $shipping)
+    {
+        $this->shipping = $shipping;
+
+        return $this;
     }
 
     public function add(array $products)
@@ -76,6 +86,10 @@ class Cart
 
     public function total()
     {
+        if ($this->shipping) {
+            return $this->subtotal()->add($this->shipping->money);
+        }
+
         return $this->subtotal();
     }
 

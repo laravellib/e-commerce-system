@@ -35,4 +35,11 @@ class Money
     {
         return $this->money->equals($money->money);
     }
+
+    public function add(Money $money)
+    {
+        $this->money = $this->money->add($money->money);
+
+        return $this;
+    }
 }
