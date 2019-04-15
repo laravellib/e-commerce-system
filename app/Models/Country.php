@@ -12,4 +12,9 @@ class Country extends Model
     ];
 
     public $timestamps = false;
+
+    public function shippingMethods()
+    {
+        return $this->belongsToMany(ShippingMethod::class);
+    }
 }

@@ -3,6 +3,8 @@
         <div class="container is-fluid">
             <div class="columns">
                 <div class="column is-8">
+                    {{ form }}
+
                     <ShippingAddress
                             :addresses="addresses"
                     />
@@ -101,6 +103,9 @@
     data() {
       return {
         addresses: [],
+        form: {
+          address_id: null,
+        },
       };
     },
 

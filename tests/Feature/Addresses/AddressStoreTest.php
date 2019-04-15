@@ -9,7 +9,7 @@ use Tests\TestCase;
 class AddressStoreTest extends TestCase
 {
     /** @test */
-    function it_fails_if_authenticated()
+    function it_fails_if_not_authenticated()
     {
         $this->getJson('api/addresses')
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
