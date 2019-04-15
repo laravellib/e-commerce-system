@@ -68,6 +68,12 @@
       };
     },
 
+    watch: {
+      selectedAddress(address) {
+        this.$emit('input', address.id);
+      }
+    },
+
     computed: {
       defaultAddress() {
         return this.localAddresses.find(address => address.default === true);

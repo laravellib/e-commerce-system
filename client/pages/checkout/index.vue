@@ -7,6 +7,7 @@
 
                     <ShippingAddress
                             :addresses="addresses"
+                            v-model="form.address_id"
                     />
 
                     <article class="message">
@@ -18,10 +19,15 @@
                     <article class="message">
                         <div class="message-body">
                             <h5 class="title is-5">Shipping</h5>
-
                             <div class="select is-fullwidth">
-                                <select name="" id="">
-                                    <option value="">Royal Mail 1st Class</option>
+                                <select v-model="form.shipping_method_id">
+                                    <option
+                                            v-for="shipping in shippingMethods"
+                                            :key="shipping.id"
+                                            :value="shipping.id"
+                                    >
+                                        {{ shipping.name }} ({{ shipping.price }})
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -103,8 +109,10 @@
     data() {
       return {
         addresses: [],
+        shippingMethods: [],
         form: {
           address_id: null,
+          shipping_method_id: null,
         },
       };
     },
@@ -117,12 +125,26 @@
       }),
     },
 
+    watch: {
+      'form.address_id'(addressId) {
+        this.getShippingMethods(addressId);
+      },
+    },
+
     async asyncData({ app }) {
       let addresses = await app.$axios.$get('addresses');
 
       return {
         addresses: addresses.data,
       }
+    },
+
+    methods: {
+      async getShippingMethods(addressId) {
+        let response = await this.$axios.$get(`addresses/${addressId}/shipping`);
+
+        this.shippingMethods = response.data;
+      },
     },
   }
 </script>
