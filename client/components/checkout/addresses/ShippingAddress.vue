@@ -7,7 +7,13 @@
                 <ShippingAddressSelector
                         :addresses="addresses"
                         :selected-address="selectedAddress"
-                        @input="switchAddress"
+                        @selected="select"
+                />
+            </template>
+            <template v-else-if="creating">
+                <ShippingAddressCreator
+                    @cancel="creating = false"
+                    @created="create"
                 />
             </template>
             <template v-else>
@@ -24,9 +30,12 @@
                 </template>
 
                 <div class="field is-grouped">
-                    <p class="control">
+                    <div class="control">
                         <a href="" class="button is-info" @click.prevent="selecting = true">Change shipping address</a>
-                    </p>
+                    </div>
+                    <div class="control">
+                        <a href="" class="button is-info" @click.prevent="creating = true">Add an address</a>
+                    </div>
                 </div>
             </template>
         </div>
@@ -35,10 +44,12 @@
 
 <script>
   import ShippingAddressSelector from './ShippingAddressSelector.vue';
+  import ShippingAddressCreator from './ShippingAddressCreator.vue';
 
   export default {
     components: {
       ShippingAddressSelector,
+      ShippingAddressCreator,
     },
 
     props: {
@@ -51,20 +62,15 @@
     data() {
       return {
         selecting: false,
-        localAddress: this.addresses,
+        creating: false,
+        localAddresses: this.addresses,
         selectedAddress: null,
       };
     },
 
-    watch: {
-      selectedAddress() {
-        this.selecting = false;
-      }
-    },
-
     computed: {
       defaultAddress() {
-        return this.localAddress.find(address => address.default === true);
+        return this.localAddresses.find(address => address.default === true);
       },
     },
 
@@ -77,7 +83,19 @@
     methods: {
       switchAddress(address) {
         this.selectedAddress = address;
-      }
+      },
+
+      select(address) {
+        this.switchAddress(address);
+        this.selecting = false;
+      },
+
+      create(address) {
+        this.localAddresses.push(address);
+        this.creating = false;
+
+        this.switchAddress(address);
+      },
     },
   }
 </script>
