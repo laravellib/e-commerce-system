@@ -3,6 +3,7 @@
 Route::resource('categories', 'Categories\CategoryController')->only(['index']);
 Route::resource('products', 'Products\ProductController')->only(['index', 'show']);
 Route::resource('addresses', 'Addresses\AddressController')->only(['index', 'store']);
+Route::resource('countries', 'Countries\CountryController')->only(['index']);
 
 Route::group([
     'prefix' => 'auth',
