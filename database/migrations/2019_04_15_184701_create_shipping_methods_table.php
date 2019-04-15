@@ -15,6 +15,8 @@ class CreateShippingMethodsTable extends Migration
     {
         Schema::create('shipping_methods', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->integer('price');
             $table->timestamps();
         });
     }
