@@ -4,6 +4,7 @@ export const state = () =>  ({
   subtotal: null,
   total: null,
   changed: false,
+  shipping: null,
 });
 
 export const getters = {
@@ -13,6 +14,7 @@ export const getters = {
   subtotal: state => state.subtotal,
   total: state => state.total,
   changed: state => state.changed,
+  shipping: state => state.shipping,
 };
 
 export const mutations = {
@@ -34,12 +36,24 @@ export const mutations = {
 
   SET_CHANGED(state, changed) {
     state.changed = changed;
+  },
+
+  SET_SHIPPING(state, shipping) {
+    state.shipping = shipping;
   }
 };
 
 export const actions = {
-  async getCart({ commit }) {
-    let response = await this.$axios.$get('cart');
+  async getCart({ commit, getters }) {
+    let query = {};
+
+    if (getters.shipping) {
+      query.shipping_method_id = getters.shipping.id;
+    }
+
+    let response = await this.$axios.$get('cart', {
+      params: query
+    });
 
     commit('SET_PRODUCTS', response.data.products);
     commit('SET_EMPTY', response.meta.empty);
@@ -70,5 +84,9 @@ export const actions = {
     });
 
     dispatch('getCart');
-  }
+  },
+
+  setShipping({ commit }, shipping) {
+    commit('SET_SHIPPING', shipping);
+  },
 };
