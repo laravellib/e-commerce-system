@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +13,8 @@ use Faker\Generator as Faker;
 | model instances for testing / seeding your application's database.
 |
 */
+
+/** @var Factory $factory */
 
 $factory->define(App\Models\User::class, function (Faker $faker) {
     return [

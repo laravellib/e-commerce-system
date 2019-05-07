@@ -26,5 +26,15 @@ class ShippingMethodsSeeder extends Seeder
             'name' => 'Royal Mail 2nd Class',
             'price' => 500,
         ]);
+
+        ShippingMethod::create([
+            'name' => 'China Mail Delivery',
+            'price' => 500,
+        ]);
+
+        ShippingMethod::create([
+            'name' => 'World Mail',
+            'price' => 500,
+        ]);
     }
 }

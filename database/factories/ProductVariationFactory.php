@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(ProductVariation::class, function (Faker $faker) {
     return [
-        'name' => ucfirst($faker->unique()->word),
+        'name' => ucfirst($faker->word),
         'product_id' => function () {
             return factory(Product::class)->create()->id;
         },

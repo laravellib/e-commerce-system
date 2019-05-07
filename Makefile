@@ -35,10 +35,10 @@ rollback:
 	docker-compose exec php-cli php artisan rollback
 
 refresh:
-	docker-compose exec php-cli php artisan migrate:refresh
+	docker-compose exec php-cli php artisan migrate:fresh
 
 seed:
-	docker-compose exec php-cli php artisan db:seed
+	docker-compose exec php-cli php artisan db:seed -v
 
 reseed: refresh seed
 
