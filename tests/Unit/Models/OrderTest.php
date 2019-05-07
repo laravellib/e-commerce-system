@@ -3,7 +3,6 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Address;
-use App\Models\Country;
 use App\Models\Order;
 use App\Models\ShippingMethod;
 use App\Models\User;
@@ -11,6 +10,14 @@ use Tests\TestCase;
 
 class OrderTest extends TestCase
 {
+    /** @test */
+    function it_has_default_status_of_pending()
+    {
+        $order = factory(Order::class)->create();
+
+        $this->assertEquals(Order::PENDING, $order->status);
+    }
+
     /** @test */
     function it_belongs_to_a_user()
     {
