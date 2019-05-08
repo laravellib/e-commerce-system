@@ -127,6 +127,32 @@ class OrderStoreTest extends TestCase
         ]);
     }
 
+    /** @test */
+    function it_fails_to_create_an_order_if_cart_is_empty()
+    {
+        $user = factory(User::class)->create();
+
+        $product = $this->productWithStock();
+
+        $user->cart()->sync([
+            $product->id => [
+                'quantity' => 0
+            ],
+        ]);
+
+        [$address, $shipping] = $this->orderDependencies($user);
+
+        $response = $this->signIn($user)->post('api/orders', [
+            'address_id' => $address->id,
+            'shipping_method_id' => $shipping->id
+        ]);
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $this->assertDatabaseMissing('product_variation_order', [
+            'product_variation_id' => $product->id,
+        ]);
+    }
+
     protected function productWithStock()
     {
         $product = factory(ProductVariation::class)->create();

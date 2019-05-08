@@ -16,6 +16,10 @@ class OrderController extends Controller
     
     public function store(OrderStoreRequest $request, Cart $cart)
     {
+        if ($cart->isEmpty()) {
+            return response()->json([], Response::HTTP_BAD_REQUEST);
+        }
+
         $order = $this->createOrder($request, $cart);
 
         $order->products()->sync($cart->products()->forSyncing());
