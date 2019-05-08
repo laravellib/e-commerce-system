@@ -269,4 +269,21 @@ class CartTest extends TestCase
 
         $this->assertFalse($cart->hasChanged());
     }
+
+    /** @test */
+    function it_returns_products_in_cart()
+    {
+        $cart = new Cart(
+            $user = factory(User::class)->create()
+        );
+
+        $user->cart()->attach(
+            $product = factory(ProductVariation::class)->create(), [
+                'quantity' => 2
+            ]
+        );
+
+        $this->assertInstanceOf(ProductVariation::class, $cart->products()->first());
+        $this->assertTrue($cart->products()->first()->is($product));
+    }
 }

@@ -20,6 +20,11 @@ class Cart
         $this->user = $user;
     }
 
+    public function products()
+    {
+        return $this->user->cart;
+    }
+
     public function withShipping(?ShippingMethod $shipping)
     {
         $this->shipping = $shipping;
