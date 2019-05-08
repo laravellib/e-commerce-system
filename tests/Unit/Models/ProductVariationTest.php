@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Collections\ProductVariationCollection;
 use App\Models\Product;
 use App\Models\ProductVariation;
 use App\Models\ProductVariationType;
@@ -143,5 +144,11 @@ class ProductVariationTest extends TestCase
         );
 
         $this->assertEquals(5, $variation->minStock(200));
+    }
+
+    /** @test */
+    function it_aggregates_into_collection()
+    {
+        $this->assertInstanceOf(ProductVariationCollection::class, ProductVariation::get());
     }
 }

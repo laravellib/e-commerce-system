@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Collections\ProductVariationCollection;
 use App\Models\Traits\HasPrice;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,5 +58,10 @@ class ProductVariation extends Model
     public function minStock($amount)
     {
         return min($this->stockCount(), $amount);
+    }
+
+    public function newCollection(array $models = [])
+    {
+        return new ProductVariationCollection($models);
     }
 }
