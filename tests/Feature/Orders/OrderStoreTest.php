@@ -91,6 +91,10 @@ class OrderStoreTest extends TestCase
     {
         $user = factory(User::class)->create();
 
+        $user->cart()->sync(
+            $product = $this->productWithStock()
+        );
+
         [$address, $shipping] = $this->orderDependencies($user);
 
         $response = $this->signIn($user)->post('api/orders', [
@@ -98,7 +102,7 @@ class OrderStoreTest extends TestCase
             'shipping_method_id' => $shipping->id
         ]);
 
-        $response->assertOk();
+        $response->assertStatus(Response::HTTP_CREATED);
         $this->assertDatabaseHas('orders', [
             'user_id' => $user->id,
             'address_id' => $address->id,
