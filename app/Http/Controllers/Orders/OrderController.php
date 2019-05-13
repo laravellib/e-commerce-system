@@ -6,6 +6,7 @@ use App\Cart\Cart;
 use App\Events\Order\OrderCreated;
 use App\Http\Requests\Orders\OrderStoreRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderResource;
 use Illuminate\Http\Response;
 
 class OrderController extends Controller
@@ -25,9 +26,11 @@ class OrderController extends Controller
 
         $order->products()->sync($cart->products()->forSyncing());
 
+//        $order->load(['products', 'address', 'shippingMethod]);
+
         event(new OrderCreated($order));
 
-        return response()->json($order, Response::HTTP_OK);
+        return new OrderResource($order);
     }
 
     protected function createOrder(OrderStoreRequest $request, Cart $cart)

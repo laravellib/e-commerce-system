@@ -122,10 +122,10 @@ class OrderStoreTest extends TestCase
             'shipping_method_id' => $shipping->id
         ]);
 
-        $response->assertOk();
+        $response->assertStatus(Response::HTTP_CREATED);
         $this->assertDatabaseHas('product_variation_order', [
             'product_variation_id' => $product->id,
-            'order_id' => $response->json()['id']
+            'order_id' => $response->json('data.id')
         ]);
     }
 
@@ -168,12 +168,14 @@ class OrderStoreTest extends TestCase
 
         [$address, $shipping] = $this->orderDependencies($user);
 
-        $this->signIn($user)->post('api/orders', [
+        $response = $this->signIn($user)->post('api/orders', [
             'address_id' => $address->id,
             'shipping_method_id' => $shipping->id
         ]);
 
-        Event::assertDispatched(OrderCreated::class);
+        Event::assertDispatched(OrderCreated::class, function (OrderCreated $event) use ($response) {
+            return $event->order->id === $response->json('data.id');
+        });
     }
 
     /** @test */
