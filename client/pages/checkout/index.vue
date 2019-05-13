@@ -3,8 +3,6 @@
         <div class="container is-fluid">
             <div class="columns">
                 <div class="column is-8">
-                    {{ form }}
-
                     <ShippingAddress
                             :addresses="addresses"
                             v-model="form.address_id"
@@ -71,7 +69,8 @@
                         <div class="message-body">
                             <button
                                     class="button is-info is-fullwidth is-medium"
-                                    :disabled="empty"
+                                    :disabled="disabled"
+                                    @click="order"
                             >
                                 Place order
                             </button>
@@ -82,8 +81,9 @@
                     <article class="message">
                         <div class="message-body">
                             <button
-                                    :disabled="empty"
                                     class="button is-info is-fullwidth is-medium"
+                                    :disabled="disabled"
+                                    @click="order"
                             >
                                 Place order
                             </button>
@@ -108,6 +108,7 @@
 
     data() {
       return {
+        submitting: false,
         addresses: [],
         shippingMethods: [],
 
@@ -124,6 +125,10 @@
         empty: 'cart/empty',
         shipping: 'cart/shipping',
       }),
+
+      disabled() {
+        return this.empty || this.submitting;
+      },
 
       shippingMethodId: {
         get() {
@@ -162,6 +167,23 @@
         setShipping: 'cart/setShipping',
         getCart: 'cart/getCart',
       }),
+
+      async order() {
+        this.submitting = true;
+
+        try {
+          await this.$axios.$post('orders', {
+            ...this.form,
+            shipping_method_id: this.shippingMethodId
+          });
+
+          await this.getCart();
+
+          this.$router.replace({ name: 'orders' });
+        } catch (e) {
+
+        }
+      },
 
       async getShippingMethods(addressId) {
         let response = await this.$axios.$get(`addresses/${addressId}/shipping`);
