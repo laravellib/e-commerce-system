@@ -49,7 +49,6 @@ class OrderStoreTest extends TestCase
         $response->assertJsonValidationErrors('address_id');
     }
 
-
     /** @test */
     function it_requires_an_address_that_belongs_to_the_user()
     {

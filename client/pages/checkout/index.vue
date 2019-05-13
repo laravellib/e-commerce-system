@@ -166,6 +166,7 @@
       ...mapActions({
         setShipping: 'cart/setShipping',
         getCart: 'cart/getCart',
+        flash: 'alert/flash',
       }),
 
       async order() {
@@ -181,8 +182,12 @@
 
           this.$router.replace({ name: 'orders' });
         } catch (e) {
+          this.flash(e.response.data.message);
 
+          this.getCart();
         }
+
+        this.submitting = false;
       },
 
       async getShippingMethods(addressId) {
