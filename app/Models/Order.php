@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Money\Money;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -25,6 +26,16 @@ class Order extends Model
         static::creating(function (Order $order) {
             $order->status = self::PENDING;
         });
+    }
+
+    public function getSubtotalAttribute()
+    {
+        return new Money($this->attributes['subtotal']);
+    }
+
+    public function total()
+    {
+        return $this->subtotal->add($this->shippingMethod->money);
     }
 
     public function user()
