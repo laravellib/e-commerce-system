@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events;
+use App\Listeners;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -15,6 +17,10 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        Events\Order\OrderCreated::class => [
+            Listeners\Order\EmptyCart::class,
+        ],
+
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],

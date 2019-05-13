@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Orders;
 
+use App\Events\Order\OrderCreated;
 use App\Models\Address;
 use App\Models\ProductVariation;
 use App\Models\ShippingMethod;
@@ -9,6 +10,7 @@ use App\Models\Stock;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Tests\TestCase;
+use Event;
 
 class OrderStoreTest extends TestCase
 {
@@ -151,6 +153,46 @@ class OrderStoreTest extends TestCase
         $this->assertDatabaseMissing('product_variation_order', [
             'product_variation_id' => $product->id,
         ]);
+    }
+
+    /** @test */
+    function it_fires_an_order_created_event()
+    {
+        Event::fake();
+
+        $user = factory(User::class)->create();
+
+        $user->cart()->sync(
+            $product = $this->productWithStock()
+        );
+
+        [$address, $shipping] = $this->orderDependencies($user);
+
+        $this->signIn($user)->post('api/orders', [
+            'address_id' => $address->id,
+            'shipping_method_id' => $shipping->id
+        ]);
+
+        Event::assertDispatched(OrderCreated::class);
+    }
+
+    /** @test */
+    function it_empties_the_cart_when_ordering()
+    {
+        $user = factory(User::class)->create();
+
+        $user->cart()->sync(
+            $product = $this->productWithStock()
+        );
+
+        [$address, $shipping] = $this->orderDependencies($user);
+
+        $this->signIn($user)->post('api/orders', [
+            'address_id' => $address->id,
+            'shipping_method_id' => $shipping->id
+        ]);
+
+        $this->assertEmpty($user->cart);
     }
 
     protected function productWithStock()

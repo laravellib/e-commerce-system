@@ -107,7 +107,7 @@ class CartTest extends TestCase
             ]
         );
 
-        $cart->clear();
+        $cart->empty();
 
         $this->assertEmpty($user->fresh()->cart);
     }

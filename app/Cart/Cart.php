@@ -70,7 +70,7 @@ class Cart
         return $this->changed;
     }
 
-    public function clear()
+    public function empty()
     {
         $this->user->cart()->detach();
     }
