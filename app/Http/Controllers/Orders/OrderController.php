@@ -7,21 +7,16 @@ use App\Events\Order\OrderCreated;
 use App\Http\Requests\Orders\OrderStoreRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
-use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth:api']);
+        $this->middleware(['auth:api', 'cart.sync', 'cart.notEmpty']);
     }
-    
+
     public function store(OrderStoreRequest $request, Cart $cart)
     {
-        if ($cart->isEmpty()) {
-            return response()->json([], Response::HTTP_BAD_REQUEST);
-        }
-
         $order = $this->createOrder($request, $cart);
 
         $order->products()->sync($cart->products()->forSyncing());

@@ -23,48 +23,78 @@ class OrderStoreTest extends TestCase
     /** @test */
     function it_requires_an_address()
     {
-        $this->signIn()->postJson('api/orders')->assertJsonValidationErrors('address_id');
+        $user = factory(User::class)->create();
+
+        $user->cart()->sync(
+            $product = $this->productWithStock()
+        );
+
+        $this->signIn($user)->postJson('api/orders')
+            ->assertJsonValidationErrors('address_id');
     }
 
     /** @test */
     function it_requires_an_existing_address()
     {
-        $this->signIn()
-            ->postJson('api/orders', [
-                'address_id' => 2,
-            ])
-            ->assertJsonValidationErrors('address_id');
+        $user = factory(User::class)->create();
+
+        $user->cart()->sync(
+            $product = $this->productWithStock()
+        );
+
+        $response = $this->signIn($user)->postJson('api/orders', [
+            'address_id' => 2,
+        ]);
+
+        $response->assertJsonValidationErrors('address_id');
     }
 
 
     /** @test */
     function it_requires_an_address_that_belongs_to_the_user()
     {
-        $address = factory(Address::class)->create([
-            'user_id' => factory(User::class)->create(),
+        $user = factory(User::class)->create();
+
+        $user->cart()->sync(
+            $product = $this->productWithStock()
+        );
+
+        $address = factory(Address::class)->create();
+
+        $response = $this->signIn($user)->postJson('api/orders', [
+            'address_id' => $address->id,
         ]);
 
-        $this->signIn()
-            ->postJson('api/orders', [
-                'address_id' => $address->id,
-            ])
-            ->assertJsonValidationErrors('address_id');
+        $response->assertJsonValidationErrors('address_id');
     }
 
     /** @test */
     function it_requires_a_shipping_method()
     {
-        $this->signIn()->postJson('api/orders')->assertJsonValidationErrors('shipping_method_id');
+        $user = factory(User::class)->create();
+
+        $user->cart()->sync(
+            $product = $this->productWithStock()
+        );
+
+        $this->signIn($user)->postJson('api/orders')
+            ->assertJsonValidationErrors('shipping_method_id');
     }
 
     /** @test */
     function it_requires_a_shipping_method_that_exists()
     {
-        $this->signIn()
-            ->postJson('api/orders', [
-                'shipping_method_id' => 1
-            ])
-            ->assertJsonValidationErrors('shipping_method_id');
+        $user = factory(User::class)->create();
+
+        $user->cart()->sync(
+            $product = $this->productWithStock()
+        );
+
+        $response = $this->signIn($user)->postJson('api/orders', [
+            'shipping_method_id' => 1
+        ]);
+
+        $response->assertJsonValidationErrors('shipping_method_id');
     }
 
     /** @test */
@@ -78,12 +108,16 @@ class OrderStoreTest extends TestCase
 
         $shipping = factory(ShippingMethod::class)->create();
 
-        $this->signIn()
-            ->postJson('api/orders', [
-                'shipping_method_id' => $shipping->id,
-                'address_id' => $address->id,
-            ])
-            ->assertJsonValidationErrors('shipping_method_id');
+        $user->cart()->sync(
+            $product = $this->productWithStock()
+        );
+
+        $response = $this->signIn($user)->postJson('api/orders', [
+            'shipping_method_id' => $shipping->id,
+            'address_id' => $address->id,
+        ]);
+
+        $response->assertJsonValidationErrors('shipping_method_id');
     }
 
     /** @test */

@@ -45,7 +45,7 @@ class ProductVariation extends Model
             ->withPivot(['stock', 'in_stock']);
     }
 
-    public function stockCount()
+    public function stockCount(): int
     {
         return $this->stock->first()->pivot->stock;
     }
@@ -55,7 +55,7 @@ class ProductVariation extends Model
         return (bool) $this->stock->first()->pivot->in_stock;
     }
 
-    public function minStock($amount)
+    public function minStock($amount): int
     {
         return min($this->stockCount(), $amount);
     }
