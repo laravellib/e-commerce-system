@@ -8,11 +8,10 @@
                             v-model="form.address_id"
                     />
 
-                    <article class="message">
-                        <div class="message-body">
-                            <h5 class="title is-5">Payment</h5>
-                        </div>
-                    </article>
+                    <PaymentMethods
+                            :payment-methods="paymentMethods"
+                            v-model="form.payment_method_id"
+                    />
 
                     <article v-if="shippingMethodId" class="message">
                         <div class="message-body">
@@ -99,11 +98,13 @@
   import { mapGetters, mapActions } from 'vuex';
   import CartOverview from "@/components/cart/CartOverview";
   import ShippingAddress from "@/components/checkout/addresses/ShippingAddress";
+  import PaymentMethods from "@/components/checkout/paymentMethods/PaymentMethods";
 
   export default {
     components: {
       CartOverview,
       ShippingAddress,
+      PaymentMethods,
     },
 
     data() {
@@ -111,9 +112,11 @@
         submitting: false,
         addresses: [],
         shippingMethods: [],
+        paymentMethods: [],
 
         form: {
           address_id: null,
+          payment_method_id: null,
         },
       };
     },
@@ -156,9 +159,11 @@
 
     async asyncData({ app }) {
       let addresses = await app.$axios.$get('addresses');
+      let paymentMethods = await app.$axios.$get('payment-methods');
 
       return {
         addresses: addresses.data,
+        paymentMethods: paymentMethods.data,
       }
     },
 
