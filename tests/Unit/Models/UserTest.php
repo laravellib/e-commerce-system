@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Address;
 use App\Models\Order;
+use App\Models\PaymentMethod;
 use App\Models\ProductVariation;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -83,5 +84,18 @@ class UserTest extends TestCase
 
         $this->assertCount(2, $user->orders);
         $this->assertInstanceOf(Order::class, $user->orders->first());
+    }
+
+    /** @test */
+    function it_has_many_payment_methods()
+    {
+        $user = factory(User::class)->create();
+
+        factory(PaymentMethod::class, 2)->create([
+            'user_id' => $user->id
+        ]);
+
+        $this->assertCount(2, $user->paymentMethods);
+        $this->assertInstanceOf(PaymentMethod::class, $user->paymentMethods->first());
     }
 }

@@ -36,12 +36,6 @@ class Address extends Model
         });
     }
 
-    public function setDefaultAttribute($value): void
-    {
-        $this->attributes['default'] = (bool) $value;
-    }
-
-
     public function user()
     {
         return $this->belongsTo(User::class);
