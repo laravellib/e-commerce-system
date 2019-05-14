@@ -241,6 +241,30 @@ class CartTest extends TestCase
     }
 
     /** @test */
+    function it_syncs_the_cart_to_update_quantities_with_multiple_products()
+    {
+        $cart = new Cart(
+            $user = factory(User::class)->create()
+        );
+
+        $product = factory(ProductVariation::class)->create();
+        $anotherProduct = factory(ProductVariation::class)->create();
+
+        $user->cart()->attach([
+            $product->id => [
+                'quantity' => 2,
+            ],
+            $anotherProduct->id => [
+                'quantity' => 0,
+            ],
+        ]);
+
+        $cart->sync();
+
+        $this->assertTrue($cart->hasChanged());
+    }
+
+    /** @test */
     function it_can_check_if_the_cart_has_changed_after_syncing()
     {
         $cart = new Cart(
