@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\CanBeDefault;
 use Illuminate\Database\Eloquent\Model;
 
 class PaymentMethod extends Model
 {
+    use CanBeDefault;
+
     protected $fillable = [
         'default',
         'card_type',
@@ -16,19 +19,6 @@ class PaymentMethod extends Model
     protected $casts = [
         'default' => 'bool',
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function (PaymentMethod $paymentMethod) {
-            if ($paymentMethod->default) {
-                $paymentMethod->user->paymentMethods()->update([
-                    'default' => false,
-                ]);
-            }
-        });
-    }
 
     public function user()
     {
