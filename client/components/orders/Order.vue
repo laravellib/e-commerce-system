@@ -1,26 +1,59 @@
 <template>
     <tr>
         <td>
-            #1
+            #{{ order.id }}
         </td>
         <td>
-            2018-01-01
+            {{ order.created_at }}
         </td>
         <td>
-            <div>
-                <a href="">Product 1</a> <a href="">Product 2</a>
+            <div v-for="product in products" :key="product.id">
+                <a href="">Product 1</a>
             </div>
-            <template>
-                and 2 more
+            <template v-if="moreProducts > 0">
+                and {{ moreProducts }} more
             </template>
         </td>
         <td>
-            $30.00
+            {{ order.subtotal }}
         </td>
         <td>
-            <span class="tag is-medium">
-                Pending
+            <span class="tag is-medium" :class="statusClass">
+                {{ order.status }}
             </span>
         </td>
     </tr>
 </template>
+<script>
+export default {
+  props: {
+    order: {
+      required: true,
+      type: Object,
+    },
+
+    maxProducts: {
+      type: Number,
+      default: 2,
+    }
+  },
+
+  computed: {
+    products() {
+      return this.order.products.slice(0, this.maxProducts)
+    },
+
+    moreProducts() {
+      return this.order.products.length - this.maxProducts;
+    },
+
+    statusClass() {
+      return {
+        'is-success': this.order.status === 'complete',
+        'is-info': ['processing', 'pending'].includes(this.order.status),
+        'is-danger': this.order.status === 'payment_failed',
+      };
+    }
+  }
+}
+</script>
