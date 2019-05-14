@@ -18,7 +18,7 @@
             {{ order.subtotal }}
         </td>
         <td>
-            <span class="tag is-medium" :class="statusClass">
+            <span class="tag is-medium" :class="statusClasses">
                 {{ order.status }}
             </span>
         </td>
@@ -47,7 +47,7 @@ export default {
       return this.order.products.length - this.maxProducts;
     },
 
-    statusClass() {
+    statusClasses() {
       return {
         'is-success': this.order.status === 'complete',
         'is-info': ['processing', 'pending'].includes(this.order.status),
