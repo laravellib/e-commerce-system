@@ -20,14 +20,20 @@
             {{ order.subtotal }}
         </td>
         <td>
-            <span class="tag is-medium" :class="statusClasses">
-                {{ order.status }}
-            </span>
+            <component :is="order.status" />
         </td>
     </tr>
 </template>
 <script>
+import OrderStatusPaymentFailed from '@/components/orders/statuses/OrderStatusPaymentFailed.vue';
+import OrderStatusPending from '@/components/orders/statuses/OrderStatusPending.vue';
+
 export default {
+  components: {
+    'payment_failed': OrderStatusPaymentFailed,
+    'pending': OrderStatusPending,
+  },
+
   props: {
     order: {
       required: true,
