@@ -6,6 +6,7 @@ use App\Cart\Payments\PaymentGateway;
 use App\Http\Resources\PaymentMethodResource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Tests\Feature\PaymentMethods\PaymentMethodStoreTest;
 
 class PaymentMethodController extends Controller
 {
@@ -24,12 +25,12 @@ class PaymentMethodController extends Controller
         );
     }
 
-    public function store(Request $request)
+    public function store(PaymentMethodStoreTest $request)
     {
         $card = $this->gateway->withUser($request->user())
             ->createCustomer()
             ->addCart($request->token);
 
-        // $card PaymentMethod
+        return new PaymentMethodResource($card);
     }
 }
