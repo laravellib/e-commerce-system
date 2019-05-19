@@ -25,13 +25,17 @@
     </tr>
 </template>
 <script>
-import OrderStatusPaymentFailed from '@/components/orders/statuses/OrderStatusPaymentFailed.vue';
-import OrderStatusPending from '@/components/orders/statuses/OrderStatusPending.vue';
+import OrderStatusPaymentFailed from './statuses/OrderStatusPaymentFailed.vue';
+import OrderStatusPending from './statuses/OrderStatusPending.vue';
+import OrderStatusProcessing from "./statuses/OrderStatusProcessing";
+import OrderStatusCompleted from "./statuses/OrderStatusCompleted";
 
 export default {
   components: {
     'payment_failed': OrderStatusPaymentFailed,
     'pending': OrderStatusPending,
+    'processing': OrderStatusProcessing,
+    'completed': OrderStatusCompleted,
   },
 
   props: {
