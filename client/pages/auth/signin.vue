@@ -33,6 +33,10 @@
 
 <script>
 export default {
+  middleware: [
+    'redirectIfAuthenticated',
+  ],
+
   data() {
     return {
       form: {
@@ -48,9 +52,15 @@ export default {
         data: this.form,
       });
 
-      this.$router.replace({
-        name: 'index',
-      });
+      this.$router.replace(this.getRedirectRoute());
+    },
+
+    getRedirectRoute() {
+      if (this.$route.query.redirect) {
+        return this.$route.query.redirect
+      }
+
+      return { name: 'index' };
     }
   }
 }

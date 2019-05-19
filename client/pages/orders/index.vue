@@ -30,6 +30,10 @@
   import Order from '@/components/orders/Order.vue';
 
   export default {
+    middleware: [
+      'redirectIfGuest',
+    ],
+
     components: {
       Order,
     },

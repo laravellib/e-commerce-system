@@ -29,6 +29,10 @@
   import CartOverview from '@/components/cart/CartOverview.vue';
 
   export default {
+    middleware: [
+      'redirectIfGuest',
+    ],
+
     components: {
       CartOverview,
     },

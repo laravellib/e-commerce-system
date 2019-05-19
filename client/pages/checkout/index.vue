@@ -101,6 +101,10 @@
   import PaymentMethods from "@/components/checkout/paymentMethods/PaymentMethods";
 
   export default {
+    middleware: [
+      'redirectIfGuest',
+    ],
+    
     components: {
       CartOverview,
       ShippingAddress,
