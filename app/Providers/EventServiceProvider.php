@@ -28,6 +28,7 @@ class EventServiceProvider extends ServiceProvider
 
         Events\Order\OrderPaid::class => [
             Listeners\Order\MarkOrderProcessing::class,
+            Listeners\Order\CreateTransaction::class,
         ],
 
         Registered::class => [
