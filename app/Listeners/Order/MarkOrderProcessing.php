@@ -2,17 +2,17 @@
 
 namespace App\Listeners\Order;
 
-use App\Events\Order\OrderPaymentFailed;
+use App\Events\Order\OrderPaid;
 
 class MarkOrderProcessing
 {
     /**
      * Handle the event.
      *
-     * @param  OrderPaymentFailed  $event
+     * @param  OrderPaid  $event
      * @return void
      */
-    public function handle(OrderPaymentFailed $event)
+    public function handle(OrderPaid $event)
     {
         $event->order->update([
             'status' => $event->order::PROCESSING
