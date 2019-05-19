@@ -22,6 +22,14 @@ class EventServiceProvider extends ServiceProvider
             Listeners\Order\EmptyCart::class,
         ],
 
+        Events\Order\OrderPaymentFailed::class => [
+            Listeners\Order\MarkOrderFailed::class,
+        ],
+
+        Events\Order\OrderPaid::class => [
+            Listeners\Order\MarkOrderProcessing::class,
+        ],
+
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],

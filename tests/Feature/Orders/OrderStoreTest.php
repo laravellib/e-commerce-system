@@ -284,6 +284,14 @@ class OrderStoreTest extends TestCase
 
     protected function orderDependencies(User $user)
     {
+        $stripeCustomer = \Stripe\Customer::create([
+            'email' => $user->email,
+        ]);
+
+        $user->update([
+            'customer_id' => $stripeCustomer->id,
+        ]);
+
         $address = factory(Address::class)->create([
             'user_id' => $user->id,
         ]);
