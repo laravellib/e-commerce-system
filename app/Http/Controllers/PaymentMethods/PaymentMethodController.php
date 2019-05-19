@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\PaymentMethods;
 
 use App\Cart\Payments\PaymentGateway;
+use App\Http\Requests\PaymentMethod\PaymentMethodStoreRequest;
 use App\Http\Resources\PaymentMethodResource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Tests\Feature\PaymentMethods\PaymentMethodStoreTest;
 
 class PaymentMethodController extends Controller
 {
@@ -25,7 +25,7 @@ class PaymentMethodController extends Controller
         );
     }
 
-    public function store(PaymentMethodStoreTest $request)
+    public function store(PaymentMethodStoreRequest $request)
     {
         $card = $this->gateway->withUser($request->user())
             ->createCustomer()

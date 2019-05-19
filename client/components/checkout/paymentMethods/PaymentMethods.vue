@@ -12,7 +12,10 @@
             </template>
 
             <template v-else-if="creating">
-                create payment method
+                <PaymentMethodCreator
+                    @cancel="creating = false"
+                    @added="create"
+                />
             </template>
 
             <template v-else>
@@ -25,7 +28,7 @@
                 </template>
 
                 <div class="field is-grouped">
-                    <div class="control">
+                    <div class="control" v-if="paymentMethods.length">
                         <a href="" class="button is-info" @click.prevent="selecting = true">Change payment method</a>
                     </div>
                     <div class="control">
@@ -39,10 +42,12 @@
 
 <script>
   import PaymentMethodSelector from './PaymentMethodSelector.vue';
+  import PaymentMethodCreator from './PaymentMethodCreator.vue';
 
   export default {
     components: {
       PaymentMethodSelector,
+      PaymentMethodCreator,
     },
 
     props: {
