@@ -26,7 +26,7 @@ class StripePaymentGateway implements PaymentGateway
     public function createCustomer(): GatewayCustomer
     {
         if ($this->user->customer_id) {
-            return $this->getCustomer($this->user->customer_id);
+            return $this->getCustomer();
         }
 
         $customer = new StripeGatewayCustomer($this, $this->createStripeCustomer());
@@ -45,8 +45,8 @@ class StripePaymentGateway implements PaymentGateway
         ]);
     }
 
-    public function getCustomer($id)
+    public function getCustomer(): GatewayCustomer
     {
-        return new StripeGatewayCustomer($this, StripeCustomer::retrieve($id));
+        return new StripeGatewayCustomer($this, StripeCustomer::retrieve($this->user->customer_id));
     }
 }

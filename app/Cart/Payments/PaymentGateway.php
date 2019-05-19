@@ -10,5 +10,7 @@ interface PaymentGateway
 
     public function createCustomer(): GatewayCustomer;
 
+    public function getCustomer(): GatewayCustomer;
+
     public function user(): User;
 }

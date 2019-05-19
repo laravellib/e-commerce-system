@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Address;
 use App\Models\Order;
+use App\Models\PaymentMethod;
 use App\Models\ProductVariation;
 use App\Models\ShippingMethod;
 use App\Models\User;
@@ -42,6 +43,14 @@ class OrderTest extends TestCase
         $order = factory(Order::class)->create();
 
         $this->assertInstanceOf(ShippingMethod::class, $order->shippingMethod);
+    }
+
+    /** @test */
+    function it_belongs_to_a_payment_method()
+    {
+        $order = factory(Order::class)->create();
+
+        $this->assertInstanceOf(PaymentMethod::class, $order->paymentMethod);
     }
 
     /** @test */
