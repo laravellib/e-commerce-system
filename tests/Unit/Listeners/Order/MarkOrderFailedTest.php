@@ -2,12 +2,8 @@
 
 namespace Tests\Unit\Listeners\Order;
 
-use App\Cart\Cart;
 use App\Events\Order\OrderPaymentFailed;
-use App\Listeners\Order\EmptyCart;
 use App\Models\Order;
-use App\Models\ProductVariation;
-use App\Models\User;
 use Tests\TestCase;
 
 class MarkOrderFailedTest extends TestCase
